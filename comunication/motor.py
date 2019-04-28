@@ -6,6 +6,7 @@
 
 import serial
 import time
+from helpers import  *
 
 Arduino_Serial = serial.Serial('com5',9600)
 print (Arduino_Serial.readline())
@@ -50,3 +51,20 @@ def right_ai(duration):
 
 def stop_ai():
     Arduino_Serial.write(str.encode('o'))
+
+def steer_angle(angle):
+    duration = helpers.deg2time(angle)
+    if angle < 0:
+        while True:
+            Arduino_Serial.write(str.encode('l'))
+            if countSec(duration):
+                break
+            else:
+                continue
+    else:
+        while True:
+            Arduino_Serial.write(str.encode('r'))
+            if countSec(duration):
+                break
+            else:
+                continue
