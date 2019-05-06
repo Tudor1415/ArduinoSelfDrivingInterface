@@ -142,7 +142,7 @@ if __name__ == '__main__':
             # all the opencv processing is done here
             cv2.imshow('start',img)
 
-            frame = img
+            frame = undist_img = cv2.resize(img, None, fx=0.6, fy= 0.6, interpolation=cv2.INTER_AREA)
 
             # Correcting for Distortion
             undist_img = undistort(frame, mtx, dist)
