@@ -7,9 +7,16 @@ from threshold import gradient_combine, hls_combine, comb_result
 from findLanes import Line, warp_image, find_LR_lines, draw_lane, print_road_status, print_road_map, road_info
 from skimage import exposure
 import math
+import urllib
+import urllib.request
+import cv2
+import numpy as np
 
 
-input_type = 'video' #'video' # 'image'
+
+
+
+input_type = 'stream' #'video' # 'image'
 input_name = 'project_video.mp4' #'test_images/straight_lines1.jpg' # 'challenge_video.mp4'
 
 left_line = Line()
@@ -125,9 +132,17 @@ if __name__ == '__main__':
         cv2.destroyAllWindows()
 
     elif input_type == 'stream':
-        cap = cv2.VideoCapture(input_name)
-        while (cap.isOpened()):
-            _, frame = cap.read()
+        url = 'http://192.168.1.95:8080/shot.jpg'
+
+        while True:
+            imgResp=urllib.request.urlopen(url)
+            imgNp=np.array(bytearray(imgResp.read()),dtype=np.uint8)
+            img=cv2.imdecode(imgNp,-1)
+
+            # all the opencv processing is done here
+            cv2.imshow('start',img)
+
+            frame = img
 
             # Correcting for Distortion
             undist_img = undistort(frame, mtx, dist)
@@ -154,29 +169,31 @@ if __name__ == '__main__':
             #cv2.imshow('warp', warp_img)
 
             searching_img = find_LR_lines(warp_img, left_line, right_line)
-            #cv2.imshow('LR searching', searching_img)
+            cv2.imshow('LR searching', searching_img)
 
-            # w_comb_result, w_color_result = draw_lane(searching_img, left_line, right_line)
-            #cv2.imshow('w_comb_result', w_comb_result)
+            w_comb_result, w_color_result = draw_lane(searching_img, left_line, right_line)
+            cv2.imshow('w_comb_result', w_comb_result)
 
             # Drawing the lines back down onto the road
-            # color_result = cv2.warpPerspective(w_color_result, Minv, (c_cols, c_rows))
-            # lane_color = np.zeros_like(undist_img)
-            # lane_color[220:rows - 12, 0:cols] = color_result
+            color_result = cv2.warpPerspective(w_color_result, Minv, (c_cols, c_rows))
+            lane_color = np.zeros_like(undist_img)
+            lane_color[220:rows - 12, 0:cols] = color_result
 
             # Combine the result with the original image
-            # result = cv2.addWeighted(undist_img, 1, lane_color, 0.3, 0)
-            #cv2.imshow('result', result.astype(np.uint8))
+            result = cv2.addWeighted(undist_img, 1, lane_color, 0.3, 0)
+            cv2.imshow('result', result.astype(np.uint8))
 
-            # info, info2 = np.zeros_like(result),  np.zeros_like(result)
-            # info[5:110, 5:190] = (255, 255, 255)
-            # info2[5:110, cols-111:cols-6] = (255, 255, 255)
-            # info = cv2.addWeighted(result, 1, info, 0.2, 0)
-            # info2 = cv2.addWeighted(info, 1, info2, 0.2, 0)
-            # road_map = print_road_map(w_color_result, left_line, right_line)
-            # info2[10:105, cols-106:cols-11] = road_map
-            # info2 = print_road_status(info2, left_line, right_line)
-            # cv2.imshow('road info', info2)
+            info, info2 = np.zeros_like(result),  np.zeros_like(result)
+            info[5:110, 5:190] = (255, 255, 255)
+            info2[5:110, cols-111:cols-6] = (255, 255, 255)
+            info = cv2.addWeighted(result, 1, info, 0.2, 0)
+            info2 = cv2.addWeighted(info, 1, info2, 0.2, 0)
+            road_map = print_road_map(w_color_result, left_line, right_line)
+            info2[10:105, cols-106:cols-11] = road_map
+            info2 = print_road_status(info2, left_line, right_line)
+            cv2.imshow('road info', info2)
+            if ord('q')==cv2.waitKey(10):
+                exit(0)
 
 
 
