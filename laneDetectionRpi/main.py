@@ -11,8 +11,8 @@ import urllib
 import urllib.request
 import cv2
 import numpy as np
-
-
+import helpers
+import motor
 
 
 
@@ -171,6 +171,13 @@ if __name__ == '__main__':
             searching_img = find_LR_lines(warp_img, left_line, right_line)
             cv2.imshow('LR searching', searching_img)
 
+            #################################################################################
+            if searching_img == 'emergency_stop':
+                motor.backward_ai(2)
+                motor.stop_ai
+            else:
+                ANGLE = helpers.radius2angle(left_line, right_line, 2.5, 0.3444882)
+                motor.steer_angle_forward(ANGLE)
             w_comb_result, w_color_result = draw_lane(searching_img, left_line, right_line)
             cv2.imshow('w_comb_result', w_comb_result)
 

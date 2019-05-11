@@ -36,7 +36,7 @@ def calibTime(path2file):
             for file in files:
                 if file.endswith('.jpg'):
                     jpgCounter += 1
-                    Image_dir.append('Data/IMG/trainingImage_no{}.jpg'.format(jpgCounter))
+                    Image_dir.append('Data/IMG/trainingImage_{}.jpg'.format(jpgCounter))
         for row in readCSV:
             Key = row[2]
             Time = row[1]
@@ -46,7 +46,8 @@ def calibTime(path2file):
             Times.append(Time)
             Keys.append(Key)
             Currents.append(Current)
-            Keys = [item.replace('"', ' ') for item in Keys]
+            Keys = [item.replace('"', '') for item in Keys]
+            Keys = [item.replace("'", '') for item in Keys]
         for i in range(0, 2):
             Calib.append(Times[i])
         for i in range(2, len(Times)):
@@ -55,7 +56,7 @@ def calibTime(path2file):
             if Keys[i] == 'd':
                 Angles.append(time2deg(Calib[i]))
             if Keys[i] == 'a':
-                Angles.append(-time2deg(Calib[i]))
+                Angles.append(-1 * time2deg(Calib[i]))
             else:
                 Angles.append(0)
 
@@ -91,10 +92,10 @@ def backward():
     Arduino_Serial.write(str.encode('b'))
 
 def left():
-    Arduino_Serial.write(str.encode('r'))
+    Arduino_Serial.write(str.encode('l'))
 
 def right():
-    Arduino_Serial.write(str.encode('l'))
+    Arduino_Serial.write(str.encode('r'))
 
 
 def stop():

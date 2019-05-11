@@ -12,7 +12,7 @@ import shutil
 import numpy as np
 #real-time server
 import socketio
-#concurrent networking 
+#concurrent networking
 import eventlet
 #web server gateway interface
 import eventlet.wsgi
@@ -22,7 +22,7 @@ from PIL import Image
 from flask import Flask
 #input output
 from io import BytesIO
-
+import urllib
 import cv2
 
 
@@ -47,7 +47,7 @@ MIN_SPEED = 10
 
 #and a speed limit
 speed_limit = MAX_SPEED
-
+url = 'http://192.168.1.95:8080/shot.jpg'
 #registering event handler for the server
 @sio.on('telemetry')
 def telemetry(sid, data):
@@ -59,7 +59,8 @@ def telemetry(sid, data):
         # The current speed of the car
         speed = float(data["speed"])
         # The current image from the center camera of the car
-        image = Image.open(BytesIO(base64.b64decode(data["image"])))
+        imgResp=urllib.request.urlopen(url)
+        imgNp=np.array(bytearray(imgResp.read()),dtype=np.uint8)
         try:
             image = np.asarray(image)       # from PIL image to numpy array
             image = utils.preprocess(image) # apply the preprocessing
@@ -88,7 +89,7 @@ def telemetry(sid, data):
         # # # #     image_filename = os.path.join(args.image_folder, timestamp)
         # # # #     np.save('{}.jpg'.format(image_filename),'image_folder')
     else:
-        
+
         sio.emit('manual', data={}, skip_sid=True)
 
 

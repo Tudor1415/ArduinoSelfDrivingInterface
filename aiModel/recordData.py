@@ -10,9 +10,11 @@ import urllib
 import urllib.request
 import cv2
 
-
-os.mkdir('Data')
-os.mkdir('Data/IMG')
+if os.path.isdir("Data") and os.path.isdir("Data/IMG"):
+    pass
+else:
+    os.mkdir('Data')
+    os.mkdir('Data/IMG')
 def on_press(key):
     try:
         # print('alphanumeric key {0} pressed'.format(
@@ -29,6 +31,7 @@ def on_press(key):
         elif key.char == 'd':
             print('Command right ')
             right()
+
         else:
             print('Command non-recieved ')
 
@@ -54,7 +57,7 @@ def on_release(key):
 
     buffer += '{}, {}, {}\n'.format(strftime("%H:%M:%S", gmtime()), ti1, key)
     f.write(buffer)
-    stop()
+    # stop()
     # write2csv('dob.csv', times )
     if key == keyboard.Key.esc:
         # Stop listener
@@ -62,28 +65,34 @@ def on_release(key):
 
 url = 'http://192.168.1.95:8080/shot.jpg'
 i = 0
+t = time.time()
+f = open('Data/driving_log.csv', 'w')
+f.write("{}, {}, {}, {}".format('Current', 'Time', 'Key', 'Img'))
 while True:
+    # t = time.time()
+    i += 1
     imgResp=urllib.request.urlopen(url)
     imgNp=np.array(bytearray(imgResp.read()),dtype=np.uint8)
     img=cv2.imdecode(imgNp,-1)
 
     # all the opencv processing is done here
-    cv2.imshow('Image',img)
-    cv2.imwrite('Data/IMG/trainingImage_no{}.jpg'.format(i),img)
-    time.sleep(100)
-    i += 1
-    if ord('esc')==cv2.waitKey(10):
-        exit(0)
+    # cv2.imshow('Image',img)
+    cv2.imwrite('Data/IMG/{}_trainingImage_{}.jpg'.format(strftime("%H:%M:%S", gmtime()), i),img)
 
-t = time.time()
-f = open('Data/driving_log.csv', 'w')
-f.write("{}, {}, {}".format('Current', 'Time', 'Key'))
-# Collect events until released
-with keyboard.Listener(
-        on_press=on_press,
-        on_release=on_release) as listener:
-        # t = time.time()
-    listener.join()
+    # Collect events until released
+    with keyboard.Listener(
+            on_press=on_press,
+            on_release=on_release) as listener:
+            # t = time.time()
+        listener.join()
+
+
+
+
+
+
+
+
 
 calibTime('Data/driving_log')
 

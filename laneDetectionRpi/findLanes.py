@@ -238,54 +238,58 @@ def prev_window_refer(b_img, left_line, right_line):
     output[righty, rightx] = [0, 0, 255]
 
     # Fit a second order polynomial to each
-    left_fit = np.polyfit(lefty, leftx, 2)
-    right_fit = np.polyfit(righty, rightx, 2)
+    if lefty and righty:
+        left_fit = np.polyfit(lefty, leftx, 2)
+        right_fit = np.polyfit(righty, rightx, 2)
 
-    # Generate x and y values for plotting
-    ploty = np.linspace(0, b_img.shape[0] - 1, b_img.shape[0])
+        # Generate x and y values for plotting
+        ploty = np.linspace(0, b_img.shape[0] - 1, b_img.shape[0])
 
-    # ax^2 + bx + c
-    left_plotx = left_fit[0] * ploty ** 2 + left_fit[1] * ploty + left_fit[2]
-    right_plotx = right_fit[0] * ploty ** 2 + right_fit[1] * ploty + right_fit[2]
+        # ax^2 + bx + c
+        left_plotx = left_fit[0] * ploty ** 2 + left_fit[1] * ploty + left_fit[2]
+        right_plotx = right_fit[0] * ploty ** 2 + right_fit[1] * ploty + right_fit[2]
 
-    leftx_avg = np.average(left_plotx)
-    rightx_avg = np.average(right_plotx)
+        leftx_avg = np.average(left_plotx)
+        rightx_avg = np.average(right_plotx)
 
-    left_line.prevx.append(left_plotx)
-    right_line.prevx.append(right_plotx)
+        left_line.prevx.append(left_plotx)
+        right_line.prevx.append(right_plotx)
 
-    if len(left_line.prevx) > 10:
-        left_avg_line = smoothing(left_line.prevx, 10)
-        left_avg_fit = np.polyfit(ploty, left_avg_line, 2)
-        left_fit_plotx = left_avg_fit[0] * ploty ** 2 + left_avg_fit[1] * ploty + left_avg_fit[2]
-        left_line.current_fit = left_avg_fit
-        left_line.allx, left_line.ally = left_fit_plotx, ploty
+        if len(left_line.prevx) > 10:
+            left_avg_line = smoothing(left_line.prevx, 10)
+            left_avg_fit = np.polyfit(ploty, left_avg_line, 2)
+            left_fit_plotx = left_avg_fit[0] * ploty ** 2 + left_avg_fit[1] * ploty + left_avg_fit[2]
+            left_line.current_fit = left_avg_fit
+            left_line.allx, left_line.ally = left_fit_plotx, ploty
+        else:
+            left_line.current_fit = left_fit
+            left_line.allx, left_line.ally = left_plotx, ploty
+
+        if len(right_line.prevx) > 10:
+            right_avg_line = smoothing(right_line.prevx, 10)
+            right_avg_fit = np.polyfit(ploty, right_avg_line, 2)
+            right_fit_plotx = right_avg_fit[0] * ploty ** 2 + right_avg_fit[1] * ploty + right_avg_fit[2]
+            right_line.current_fit = right_avg_fit
+            right_line.allx, right_line.ally = right_fit_plotx, ploty
+        else:
+            right_line.current_fit = right_fit
+            right_line.allx, right_line.ally = right_plotx, ploty
+
+        # goto blind_search if the standard value of lane lines is high.
+        standard = np.std(right_line.allx - left_line.allx)
+
+        if (standard > 80):
+            left_line.detected = False
+
+        left_line.startx, right_line.startx = left_line.allx[len(left_line.allx) - 1], right_line.allx[len(right_line.allx) - 1]
+        left_line.endx, right_line.endx = left_line.allx[0], right_line.allx[0]
+
+        # print radius of curvature
+        rad_of_curvature(left_line, right_line)
+        return output
     else:
-        left_line.current_fit = left_fit
-        left_line.allx, left_line.ally = left_plotx, ploty
-
-    if len(right_line.prevx) > 10:
-        right_avg_line = smoothing(right_line.prevx, 10)
-        right_avg_fit = np.polyfit(ploty, right_avg_line, 2)
-        right_fit_plotx = right_avg_fit[0] * ploty ** 2 + right_avg_fit[1] * ploty + right_avg_fit[2]
-        right_line.current_fit = right_avg_fit
-        right_line.allx, right_line.ally = right_fit_plotx, ploty
-    else:
-        right_line.current_fit = right_fit
-        right_line.allx, right_line.ally = right_plotx, ploty
-
-    # goto blind_search if the standard value of lane lines is high.
-    standard = np.std(right_line.allx - left_line.allx)
-
-    if (standard > 80):
-        left_line.detected = False
-
-    left_line.startx, right_line.startx = left_line.allx[len(left_line.allx) - 1], right_line.allx[len(right_line.allx) - 1]
-    left_line.endx, right_line.endx = left_line.allx[0], right_line.allx[0]
-
-    # print radius of curvature
-    rad_of_curvature(left_line, right_line)
-    return output
+        print('No lanes found! Calling emergency stop')
+        return 'emergency_stop'
 
 def find_LR_lines(binary_img, left_line, right_line):
     """
