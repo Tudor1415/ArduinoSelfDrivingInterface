@@ -65,16 +65,16 @@ while main==True:
             # elif event.key == ord('s'):
             #     Arduino_Serial.write(str.encode('o1'))
             #     print('backward-right stop')
-            if event.key == ord('f'):
+            if event.key == ord('d'):
                 Arduino_Serial.write(str.encode('o'))
                 print('left stop')
-            elif event.key == ord('h'):
+            elif event.key == ord('a'):
                 Arduino_Serial.write(str.encode('o'))
                 print('right stop')
-            elif event.key == ord('v'):
+            elif event.key == ord('w'):
                 Arduino_Serial.write(str.encode('o'))
                 print('forward stop')
-            elif event.key == ord('n'):
+            elif event.key == ord('s'):
                 Arduino_Serial.write(str.encode('o'))
                 print('backward stop')
             elif event.key == ord('e'):

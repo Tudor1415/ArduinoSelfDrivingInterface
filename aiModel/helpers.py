@@ -1,5 +1,6 @@
 import csv
 import pandas as pd
+import os
 
 def deg2time(deg):
     return 1/45 * deg
@@ -46,26 +47,30 @@ def calibTime(path2file):
             Times.append(Time)
             Keys.append(Key)
             Currents.append(Current)
-            Keys = [item.replace('"', '') for item in Keys]
-            Keys = [item.replace("'", '') for item in Keys]
-        for i in range(0, 2):
+
+        for i in range(1, 2):
             Calib.append(Times[i])
         for i in range(2, len(Times)):
             Calib.append(float(Times[i]) - float(Times[i-1]))
         for i in range(0, len(Calib)):
-            if Keys[i] == 'd':
-                Angles.append(time2deg(Calib[i]))
-            if Keys[i] == 'a':
-                Angles.append(-1 * time2deg(Calib[i]))
-            else:
-                Angles.append(0)
+            # if Keys[i] == 'D':
+            i = round(time2deg(float(Calib[i])), 3)
+            Angles.append(i)
+            # if Keys[i] == 'A':
+            #     Angles.append(-1 * time2deg(Calib[i]))
+            # else:
+            #     Angles.append(0)
 
-        print(Angles)
-        print(Keys)
+        print(len(Angles))
+        print(len(Keys))
+        print(len(Currents))
+        print(len(Calib))
+        print(len(Image_dir))
+        # print(Calib)
     with open(path2file + '_calib' + '.csv', 'w') as f:
-        f.write("{}, {}, {}, {}\n".format('Current', 'Time', 'Key', 'Angles', 'Image_dir'))
+        f.write("{}, {}, {}, {}, {}\n".format('Current', 'Key', 'Time', 'Angles', 'Image_dir'))
         for item in range(len(Currents)):
-            f.write("{}, {}, {}, {} \n".format(Currents[item], Keys[item], Calib[item], Angles[item], Image_dir[item]))
+            f.write("{}, {}, {}, {}, {} \n".format(Currents[item], Keys[item], Calib[item], Angles[item], Image_dir[item]))
     return Calib
 
 #########################################################################################################

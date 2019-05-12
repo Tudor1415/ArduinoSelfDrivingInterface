@@ -1,11 +1,11 @@
 from pynput import keyboard
 import time
-from helpers import *
+# from helpers import *
 import pandas as pd
 import numpy as np
 import os
 from time import gmtime, strftime
-from helpers import forward, left, backward, right, stop
+# from helpers import forward, left, backward, right, stop
 import urllib
 import urllib.request
 import cv2
@@ -21,16 +21,16 @@ def on_press(key):
         #     key.char))
         if key.char == 'w':
             print('Command forward ')
-            forward()
+            # forward()
         elif key.char == 'a':
             print('Command left ')
-            left()
+            # left()
         elif key.char == 's':
             print('Command backward ')
-            backward()
+            # backward()
         elif key.char == 'd':
             print('Command right ')
-            right()
+            # right()
 
         else:
             print('Command non-recieved ')
@@ -68,36 +68,9 @@ i = 0
 t = time.time()
 f = open('Data/driving_log.csv', 'w')
 f.write("{}, {}, {}, {}".format('Current', 'Time', 'Key', 'Img'))
-while True:
-    # t = time.time()
-    i += 1
-    imgResp=urllib.request.urlopen(url)
-    imgNp=np.array(bytearray(imgResp.read()),dtype=np.uint8)
-    img=cv2.imdecode(imgNp,-1)
 
-    # all the opencv processing is done here
-    # cv2.imshow('Image',img)
-    cv2.imwrite('Data/IMG/{}_trainingImage_{}.jpg'.format(strftime("%H:%M:%S", gmtime()), i),img)
-
-    # Collect events until released
-    with keyboard.Listener(
-            on_press=on_press,
-            on_release=on_release) as listener:
-            # t = time.time()
-        listener.join()
-
-
-
-
-
-
-
-
-
-calibTime('Data/driving_log')
-
-
-
-
-
-
+with keyboard.Listener(
+        on_press=on_press,
+        on_release=on_release) as listener:
+        # t = time.time()
+    listener.join()
