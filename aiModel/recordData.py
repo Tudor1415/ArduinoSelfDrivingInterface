@@ -55,7 +55,7 @@ def on_release(key):
     length = len(open("Data/driving_log.csv").readlines())
     f = open('Data/driving_log.csv', 'w')
 
-    buffer += '{}, {}, {}\n'.format(strftime("%H:%M:%S", gmtime()), ti1, key)
+    buffer += '{}, {}, {}\n'.format(strftime("$%H$%M$%S", gmtime()), ti1, key)
     f.write(buffer)
     # stop()
     # write2csv('dob.csv', times )

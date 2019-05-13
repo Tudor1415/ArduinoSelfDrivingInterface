@@ -24,6 +24,6 @@ while True:
     im_pil.save("Data\\IMG\\{}_trainingImage_{}.jpg".format(strftime("$%H$%M$%S", gmtime()),i), 'JPEG')
     cv2.imshow('test',img)
     i+=1
-    time.sleep(0.3)
+    time.sleep(0.2)
     if ord('q')==cv2.waitKey(10):
         exit(0)
