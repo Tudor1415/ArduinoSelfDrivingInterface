@@ -63,7 +63,7 @@ def on_release(key):
         # Stop listener
         return False
 
-url = 'http://192.168.1.95:8080/shot.jpg'
+
 i = 0
 t = time.time()
 f = open('Data/driving_log.csv', 'w')

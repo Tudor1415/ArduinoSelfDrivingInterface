@@ -33,11 +33,7 @@ def calibTime(path2file):
         Angles = []
         Image_dir = []
         jpgCounter = 0
-        for root, dirs, files in os.walk('Data/IMG/'):
-            for file in files:
-                if file.endswith('.jpg'):
-                    jpgCounter += 1
-                    Image_dir.append('Data/IMG/trainingImage_{}.jpg'.format(jpgCounter))
+
         for row in readCSV:
             Key = row[2]
             Time = row[1]
@@ -78,9 +74,9 @@ def calibTime(path2file):
             f.write("{}, {}, {}, {}, {} \n".format(Currents[item], Keys[item], Calib[item], Angles[item], Image_dir[item]))
     return Calib
 
-def claibImage(path2file):
+def claibImage(path2img, path2file):
     img_dir = []
-    for file in glob.glob("*.jpg"):
+    for file in glob.glob(path2img + "*.jpg"):
         img_dir.append(file)
     index = []
     Img_time = []
@@ -97,7 +93,11 @@ def claibImage(path2file):
         s = img_dir[index[2]+1:index[2]+3]
         Img_time.append('{} {} {}'.format(h, m, s))
 
-
+    for root, dirs, files in os.walk('Data/IMG/'):
+        for file in files:
+            if file.endswith('.jpg'):
+                jpgCounter += 1
+                Image_dir.append('{}_Data/IMG/trainingImage_{}.jpg'.format(Img_time[jpgCounter], jpgCounter))
     with open(path2file  + '.csv') as csvfile:
         readCSV = csv.reader(csvfile, delimiter=',')
         for row in readCSV:
@@ -113,7 +113,15 @@ def claibImage(path2file):
             h = img_dir[index[0]+1:index[0]+3]
             m = img_dir[index[1]+1:index[1]+3]
             s = img_dir[index[2]+1:index[2]+3]
-            Key_time.append('{} {} {}'.format(h, m, s))
+            append = [h, m, s]
+            Key_time.append(append)
+    
+    # for i in range(len(Key_time)):
+    #     h =  Key_time[i][0]
+    #     m =  Key_time[i][1]
+    #     s =  Key_time[i][2]
+
+    
 
 #########################################################################################################
 ##                                      CONTROL FUNCTIONS                                              ##
