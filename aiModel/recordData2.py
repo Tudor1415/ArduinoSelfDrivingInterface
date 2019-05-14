@@ -25,21 +25,35 @@ def on_press(key):
         #     key.char))
         if key == 'w':
             print('Command forward ')
-            # get_image('http://192.168.1.95:8080/shot.jpg')
+            get_image('http://192.168.1.95:8080/shot.jpg', False)
             forward()
         elif key == 'a':
             print('Command left ')
-            get_image('http://192.168.1.95:8080/shot.jpg')
+            get_image('http://192.168.1.95:8080/shot.jpg', True)
             # i+=1
             left()
+           
         elif key == 's':
             print('Command backward ')
-            # get_image('http://192.168.1.95:8080/shot.jpg')
+            get_image('http://192.168.1.95:8080/shot.jpg', False)
             backward()
         elif key == 'd':
             print('Command right ')
-            get_image('http://192.168.1.95:8080/shot.jpg')
+            get_image('http://192.168.1.95:8080/shot.jpg', True)
             right()
+        
+        elif key == 'a' and key == 'w':
+            print('Command left-forward ')
+            get_image('http://192.168.1.95:8080/shot.jpg', True)
+            left()
+            forward()
+        
+        elif key == 'd' and key == 'w':
+            print('Command right-forward ')
+            get_image('http://192.168.1.95:8080/shot.jpg', True)
+            right()
+            forward()
+            
 
         else:
             print('Command non-recieved ')

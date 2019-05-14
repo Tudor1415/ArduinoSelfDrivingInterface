@@ -8,7 +8,7 @@ from pynput.keyboard import Key, Controller
 Arduino_Serial = serial.Serial('com5',9600)
 print (Arduino_Serial.readline())
 print ("Starting in .......")
-n = 5
+n = 3
 while n > 0:
     print(n)
     n -= 1
@@ -97,17 +97,19 @@ def stop():
 
 
 #####################################################
-# right()
-# for i in range(0, 3):
-#     right()
-#     forward()
-#     time.sleep(0.20)
-#     stop()
-#     right()
-#     time.sleep(0.5)
-# stop()
-# left()
-# forward()
-# time.sleep(0.2)
-# stop()
-# left()
+right()
+for i in range(0, 3):
+    right()
+    forward()
+    time.sleep(0.3)
+    stop()
+    right()
+    time.sleep(0.75)
+stop()
+left()
+forward()
+time.sleep(0.2)
+stop()
+left()
+time.sleep(0.75)
+stop()

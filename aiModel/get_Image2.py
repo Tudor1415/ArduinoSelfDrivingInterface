@@ -15,25 +15,32 @@ import os
 #     os.mkdir('Data')
 #     os.mkdir('Data/IMG')
 
-def get_image(url):
+def get_image(url, choice):
+    if choice == True:
+        size = 128, 128
+        imgResp=urllib.request.urlopen(url)
+        imgNp=np.array(bytearray(imgResp.read()),dtype=np.uint8)
+        img=cv2.imdecode(imgNp,-1)
+        im_pil = Image.fromarray(img)
+        # all the opencv processing is done here
+        f = open('Data/driving_log.csv', 'r+')
+        buffer = f.read()
+        f.close()
 
-    size = 128, 128
-    imgResp=urllib.request.urlopen(url)
-    imgNp=np.array(bytearray(imgResp.read()),dtype=np.uint8)
-    img=cv2.imdecode(imgNp,-1)
-    im_pil = Image.fromarray(img)
-    # all the opencv processing is done here
-    f = open('Data/driving_log.csv', 'r+')
-    buffer = f.read()
-    f.close()
+        # im_pil.thumbnail(size, Image.ANTIALIAS)
+        im_pil.save("Data\\IMG\\{}_trainingImage.jpg".format(strftime("$%H$%M$%S", gmtime())), 'JPEG')
 
-    # im_pil.thumbnail(size, Image.ANTIALIAS)
-    im_pil.save("Data\\IMG\\{}_trainingImage.jpg".format(strftime("$%H$%M$%S", gmtime())), 'JPEG')
-
-    length = len(open("Data/driving_log.csv").readlines())
-    f = open('Data/driving_log.csv', 'w')
-    buffer += "Data\\IMG\\{}_trainingImage.jpg".format(strftime("$%H$%M$%S", gmtime()))
-    f.write(buffer)
+        length = len(open("Data/driving_log.csv").readlines())
+        f = open('Data/driving_log.csv', 'w')
+        buffer += "Data\\IMG\\{}_trainingImage.jpg".format(strftime("$%H$%M$%S", gmtime()))
+        f.write(buffer)
+    else:
+        f = open('Data/driving_log.csv', 'r+')
+        buffer = f.read()
+        f.close()
+        f = open('Data/driving_log.csv', 'w')
+        buffer += "None, "
+        f.write(buffer)
     # cv2.imshow('test',img)
 
     # time.sleep(0.2)
