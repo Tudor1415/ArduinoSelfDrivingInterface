@@ -1,11 +1,11 @@
 from pynput import keyboard
 import time
-# from helpers import *
+from helpers import *
 import pandas as pd
 import numpy as np
 import os
 from time import gmtime, strftime
-# from helpers import forward, left, backward, right, stop
+from helpers import forward, left, backward, right, stop
 import urllib
 import urllib.request
 import cv2
@@ -17,7 +17,7 @@ if os.path.isdir("Data") and os.path.isdir("Data/IMG"):
 else:
     os.mkdir('Data')
     os.mkdir('Data/IMG')
-i = 0
+
 def on_press(key):
     key = readchar.readkey()
     try:
@@ -26,21 +26,20 @@ def on_press(key):
         if key == 'w':
             print('Command forward ')
             # get_image('http://192.168.1.95:8080/shot.jpg')
-            # forward()
+            forward()
         elif key == 'a':
             print('Command left ')
             get_image('http://192.168.1.95:8080/shot.jpg')
             # i+=1
-            # left()
+            left()
         elif key == 's':
             print('Command backward ')
             # get_image('http://192.168.1.95:8080/shot.jpg')
-            # backward()
+            backward()
         elif key == 'd':
             print('Command right ')
             get_image('http://192.168.1.95:8080/shot.jpg')
-
-            # # right()
+            right()
 
         else:
             print('Command non-recieved ')
@@ -72,7 +71,7 @@ def on_release(key):
     if key == keyboard.Key.esc:
         # Stop listener
         return False
-    # stop()
+    stop()
     # write2csv('dob.csv', times )
 
 

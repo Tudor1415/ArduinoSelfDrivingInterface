@@ -15,7 +15,7 @@ import os
 #     os.mkdir('Data')
 #     os.mkdir('Data/IMG')
 
-def get_image(url, ):
+def get_image(url):
 
     size = 128, 128
     imgResp=urllib.request.urlopen(url)

@@ -1,170 +1,99 @@
-eys[i]import csv
+from pynput import keyboard
+import time
+from helpers import *
 import pandas as pd
+import numpy as np
 import os
+from time import gmtime, strftime
+from helpers import forward, left, backward, right, stop
+import urllib
+import urllib.request
+import cv2
+from get_Image2 import get_image
+import readchar
 
-def deg2time(deg):
-    return 1/45 * deg
+if os.path.isdir("Data") and os.path.isdir("Data/IMG"):
+    pass
+else:
+    os.mkdir('Data')
+    os.mkdir('Data/IMG')
 
-def time2deg(time):
-    return 45/1 * time
+print ("Starting in .......")
+n = 2
+while n > 0:
+    print(n)
+    n -= 1
+    time.sleep(1)
+for i in range(0, 50):
+    forward()
+    time.sleep(0.20)
+    stop()
+    time.sleep(0.5)
+def on_press(key):
+    key = readchar.readkey()
+    try:
+        # print('alphanumeric key {0} pressed'.format(
+        #     key.char))
+        if key == 'w':
+            print('Command forward ')
+            # get_image('http://192.168.1.95:8080/shot.jpg')
+            # forward()
+        elif key == 'a':
+            print('Command left ')
+            get_image('http://192.168.1.95:8080/shot.jpg')
+            # i+=1
+            left()
+        elif key == 's':
+            print('Command backward ')
+            # get_image('http://192.168.1.95:8080/shot.jpg')
+            # backward()
+        elif key == 'd':
+            print('Command right ')
+            get_image('http://192.168.1.95:8080/shot.jpg')
+            right()
 
+        else:
+            print('Command non-recieved ')
 
-def write2csv(path2file, text):
+    except AttributeError:
+        print('special key {0} pressed'.format(
+            key))
 
-    csv.register_dialect('myDialect',
-    delimiter = '|',
-    quoting=csv.QUOTE_NONE,
-    skipinitialspace=True)
+def on_release(key):
+    timeInit = time.time()
 
-    with open(path2file, 'w') as f:
-        writer = csv.writer(f, dialect='myDialect')
-        for row in text:
-            writer.writerow(row)
-    print('Finished')
+    times = []
+    print('Released')
+    # p = time.time()-(time.time() - t)
+    ti1 = str(timeInit - t)[0:5] #converting float to str, slicing the float
+    print("The key",key," is pressed for",ti1,'seconds')
+
+    f = open('Data/driving_log.csv', 'r+')
+    buffer = f.read()
     f.close()
 
-def calibTime(path2file):
-    with open(path2file  + '.csv') as csvfile:
-        readCSV = csv.reader(csvfile, delimiter=',')
-        Times = []
-        Keys = []
-        Calib = []
-        Currents = []
-        Angles = []
-        Image_dir = []
-        jpgCounter = 0
-        for root, dirs, files in os.walk('Data/IMG/'):
-            for file in files:
-                if file.endswith('.jpg'):
-                    jpgCounter += 1
-                    Image_dir.append('Data/IMG/trainingImage_{}.jpg'.format(jpgCounter))
-        for row in readCSV:
-            Key = row[2]
-            Time = row[1]
-            Current = row[0]
-            # Angle = row[3]
+    length = len(open("Data/driving_log.csv").readlines())
+    f = open('Data/driving_log.csv', 'w')
 
-            Times.append(Time)
-            Keys.append(Key)
-            Currents.append(Current)
+# if  key.char == 'd' or  key.char == 'a':
+    buffer += '{}, {}, {},\n'.format(strftime("$%H$%M$%S", gmtime()), ti1, key)
+    f.write(buffer)
 
-        for i in range(1, 2):
-            Calib.append(Times[i])
-        for i in range(2, len(Times)):
-            Calib.append(float(Times[i]) - float(Times[i-1]))
-        for row in readCSV:
-            Key = row[2]
-        for i in range(0, len(Calib)):
-            if Key == 'D':
-                i = round(time2deg(float(Calib[i])), 3)
-                Angles.append(i)
-            if Key== 'A':
-                i = round(time2deg(float(Calib[i])), 3)
-                Angles.append(-1 * i)
-            else:
-                Angles.append(0)
-
-        print(len(Angles))
-        print(len(Keys))
-        print(len(Currents))
-        print(len(Calib))
-        print(len(Image_dir))
-        # print(Calib)
-    with open(path2file + '_calib' + '.csv', 'w') as f:
-        f.write("{}, {}, {}, {}, {}\n".format('Current', 'Key', 'Time', 'Angles', 'Image_dir'))
-        for item in range(len(Currents)):
-            f.write("{}, {}, {}, {}, {} \n".format(Currents[item], Keys[item], Calib[item], Angles[item], Image_dir[item]))
-    return Calib
-
-#########################################################################################################
-##                                      CONTROL FUNCTIONS                                              ##
-##                                                                                                     ##
-##                              Arduino_Serial.write(str.encode('l'))                                  ##
-##                              Arduino_Serial.write(str.encode('r'))                                  ##
-##                              Arduino_Serial.write(str.encode('f'))                                  ##
-##                              Arduino_Serial.write(str.encode('b'))                                  ##
-#########################################################################################################
-
-import serial
-import time
-
-
-Arduino_Serial = serial.Serial('com5',9600)
-print (Arduino_Serial.readline())
-
-
-def forward():
-    Arduino_Serial.write(str.encode('f'))
-
-def backward():
-    Arduino_Serial.write(str.encode('b'))
-
-def left():
-    Arduino_Serial.write(str.encode('l'))
-
-def right():
-    Arduino_Serial.write(str.encode('r'))
-
-
-def stop():
-    Arduino_Serial.write(str.encode('o'))
-
-def countSec(duration):
-    finish = False
-    time.sleep(duration)
-    finish = True
-    return finish
-
-def forward_ai(duration):
-    while True:
-        Arduino_Serial.write(str.encode('f'))
-        if countSec(duration):
-            break
-        else:
-            continue
-
-def backward_ai(duration):
-    while True:
-        Arduino_Serial.write(str.encode('b'))
-        if countSec(duration):
-            break
-        else:
-            continue
-
-def left_ai(duration):
-    while True:
-        Arduino_Serial.write(str.encode('l'))
-        if countSec(duration):
-            break
-        else:
-            continue
-
-def right_ai(duration):
-    while True:
-        Arduino_Serial.write(str.encode('r'))
-        if countSec(duration):
-            break
-        else:
-            continue
+    if key == keyboard.Key.esc:
+        # Stop listener
+        return False
+    # stop()
+    # write2csv('dob.csv', times )
 
 
 
-def steer_angle(angle):
-    duration = deg2time(angle)
-    if angle < 0:
-        while True:
-            Arduino_Serial.write(str.encode('l'))
-            if countSec(duration):
-                break
-            else:
-                continue
-    else:
-        while True:
-            Arduino_Serial.write(str.encode('r'))
-            if countSec(duration):
-                break
-            else:
-                continue
+i = 0
+t = time.time()
+f = open('Data/driving_log.csv', 'w')
+f.write("{}, {}, {}, {}".format('Current', 'Time', 'Key', 'Img'))
 
-
-
+with keyboard.Listener(
+        on_press=on_press,
+        on_release=on_release) as listener:
+        # t = time.time()
+    listener.join()
