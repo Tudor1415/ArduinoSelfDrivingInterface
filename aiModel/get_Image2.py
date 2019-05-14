@@ -27,7 +27,7 @@ def get_image(url, ):
     buffer = f.read()
     f.close()
 
-    im_pil.thumbnail(size, Image.ANTIALIAS)
+    # im_pil.thumbnail(size, Image.ANTIALIAS)
     im_pil.save("Data\\IMG\\{}_trainingImage.jpg".format(strftime("$%H$%M$%S", gmtime())), 'JPEG')
 
     length = len(open("Data/driving_log.csv").readlines())

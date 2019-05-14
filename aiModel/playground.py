@@ -53,22 +53,29 @@
 # currentDT = datetime.datetime.now()
 # print (str(currentDT))
 
-from multiprocessing import Process
+# from multiprocessing import Process
 
-def func1():
-  print('func1: starting')
-  for i in range(10000000): pass
-  print('func1: finishing')
+# def func1():
+#   print('func1: starting')
+#   for i in range(10000000): pass
+#   print('func1: finishing')
 
-def func2():
-  print('func2: starting')
-  for i in range(100000000): pass
-  print('func2: finishing')
+# def func2():
+#   print('func2: starting')
+#   for i in range(100000000): pass
+#   print('func2: finishing')
 
-if __name__ == '__main__':
-  p1 = Process(target=func1)
-  p1.start()
-  p2 = Process(target=func2)
-  p2.start()
-  p1.join()
-  p2.join()
+# if __name__ == '__main__':
+#   p1 = Process(target=func1)
+#   p1.start()
+#   p2 = Process(target=func2)
+#   p2.start()
+#   p1.join()
+#   p2.join()
+
+import time
+from get_Image2 import get_image
+t = time.time()
+get_image('http://192.168.1.95:8080/shot.jpg')
+t0 = time.time()
+print(t0 - t)
