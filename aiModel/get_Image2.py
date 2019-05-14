@@ -23,8 +23,17 @@ def get_image(url, ):
     img=cv2.imdecode(imgNp,-1)
     im_pil = Image.fromarray(img)
     # all the opencv processing is done here
+    f = open('Data/driving_log.csv', 'r+')
+    buffer = f.read()
+    f.close()
+
     im_pil.thumbnail(size, Image.ANTIALIAS)
     im_pil.save("Data\\IMG\\{}_trainingImage.jpg".format(strftime("$%H$%M$%S", gmtime())), 'JPEG')
+
+    length = len(open("Data/driving_log.csv").readlines())
+    f = open('Data/driving_log.csv', 'w')
+    buffer += "Data\\IMG\\{}_trainingImage.jpg".format(strftime("$%H$%M$%S", gmtime()))
+    f.write(buffer)
     # cv2.imshow('test',img)
 
     # time.sleep(0.2)

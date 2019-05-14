@@ -68,24 +68,28 @@ def stop():
 # for i in range(0, 20):
 #     forward()
 #     time.sleep(0.1)
-
+right()
 keyboard = Controller()
-for i in range(0, 50):
+for i in range(0, 20):
 
     for i in range(0, 4):
         keyboard.press('d')
         keyboard.press('w')
-        right()
+        # right()
+        left()
         forward()
         time.sleep(0.175)
         stop()
         keyboard.release('w')
-        right()
+        # right()
+        left()
         time.sleep(0.3)
         keyboard.release('d')
         # forward()
         # time.sleep(0.1)
         # stop()
+
+stop()
 
 stop()
 keyboard.press('esc')

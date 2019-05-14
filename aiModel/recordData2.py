@@ -10,6 +10,7 @@ import urllib
 import urllib.request
 import cv2
 from get_Image2 import get_image
+import readchar
 
 if os.path.isdir("Data") and os.path.isdir("Data/IMG"):
     pass
@@ -18,27 +19,28 @@ else:
     os.mkdir('Data/IMG')
 i = 0
 def on_press(key):
+    key = readchar.readkey()
     try:
         # print('alphanumeric key {0} pressed'.format(
         #     key.char))
-        if key.char == 'w':
+        if key == 'w':
             print('Command forward ')
             # get_image('http://192.168.1.95:8080/shot.jpg')
             # forward()
-        elif key.char == 'a':
+        elif key == 'a':
             print('Command left ')
             get_image('http://192.168.1.95:8080/shot.jpg')
             # i+=1
             # left()
-        elif key.char == 's':
+        elif key == 's':
             print('Command backward ')
             # get_image('http://192.168.1.95:8080/shot.jpg')
             # backward()
-        elif key.char == 'd':
+        elif key == 'd':
             print('Command right ')
             get_image('http://192.168.1.95:8080/shot.jpg')
 
-            # right()
+            # # right()
 
         else:
             print('Command non-recieved ')
@@ -64,7 +66,7 @@ def on_release(key):
     f = open('Data/driving_log.csv', 'w')
 
 # if  key.char == 'd' or  key.char == 'a':
-    buffer += '{}, {}, {}\n'.format(strftime("$%H$%M$%S", gmtime()), ti1, key)
+    buffer += '{}, {}, {},\n'.format(strftime("$%H$%M$%S", gmtime()), ti1, key)
     f.write(buffer)
 
     if key == keyboard.Key.esc:
@@ -78,7 +80,7 @@ def on_release(key):
 i = 0
 t = time.time()
 f = open('Data/driving_log.csv', 'w')
-f.write("{}, {}, {}".format('Current', 'Time', 'Key'))
+f.write("{}, {}, {}, {}".format('Current', 'Time', 'Key', 'Img'))
 
 with keyboard.Listener(
         on_press=on_press,
