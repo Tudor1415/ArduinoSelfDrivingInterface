@@ -1,20 +1,24 @@
 import csv
 import pandas as pd
 import os
+import glob
 
 def deg2time(deg):
-    return 1/45 * deg
+    return 0.3/45 * deg
 
 def time2deg(time):
-    return 45/1 * time
+    return 45/0.3 * time
 
 
 def write2csv(path2file, Currents, Keys, Calib, Angles, Image_dir):
     with open(path2file + '_calib' + '.csv', 'w') as f:
         f.write("{}, {}, {}, {}, {}\n".format('Current', 'Key', 'Time', 'Angles', 'Image_dir'))
-        for item in range(len(Currents)):
-            f.write("{}, {}, {}, {} \n".format(Currents[item], Keys[item], Calib[item], Angles[item]))
-    
+        try:
+            for item in range(len(Currents)):
+                f.write("{}, {}, {}, {}, {} \n".format(Currents[item], Keys[item], Calib[item], Angles[item], Image_dir[item]))
+        except  IndexError:
+             Image_dir.append(0)
+
 def calibTime(path2file):
     with open(path2file  + '.csv') as csvfile:
         readCSV = csv.reader(csvfile, delimiter=',')
@@ -23,7 +27,7 @@ def calibTime(path2file):
         Calib = []
         Currents = []
         Angles = []
-    
+
         for row in readCSV:
             Key = row[2]
             Time = row[1]
@@ -58,6 +62,7 @@ def calibTime(path2file):
 
 def claibImage(path2img, path2file):
     img_dir = []
+    jpgCounter = 0
     for file in glob.glob(path2img + "*.jpg"):
         img_dir.append(file)
     index = []
@@ -67,19 +72,17 @@ def claibImage(path2img, path2file):
     for root, dirs, files in os.walk('Data/IMG/'):
         for file in files:
             if file.endswith('.jpg'):
+                img_dir.append(file)
                 jpgCounter += 1
-                img_dir.append('{}_Data/IMG/trainingImage_{}.jpg'.format(Img_time[jpgCounter], jpgCounter))
+    # print(img_dir)
     for i in range(len(img_dir)):
-        for pos, char in enumerate(img_dir):
-            if char == '$':
-                index.append(pos)
-                # print(index)
-
-        h = img_dir[index[0]+1:index[0]+3]
-        m = img_dir[index[1]+1:index[1]+3]
-        s = img_dir[index[2]+1:index[2]+3]
+        h = img_dir[i][1:3]
+        m = img_dir[i][4:6]
+        s = img_dir[i][7:9]
         append = [h, m, s]
         Img_time.append(append)
+    # print(Img_time)
+
 
     with open(path2file  + '.csv') as csvfile:
         readCSV = csv.reader(csvfile, delimiter=',')
@@ -88,32 +91,58 @@ def claibImage(path2img, path2file):
             Currents.append(Current)
 
         for i in range(len(Currents)):
-            for pos, char in enumerate(Currents):
-                if char == '$':
-                    index.append(pos)
-                    # print(index)
+                h = Currents[i][1:3]
+                m = Currents[i][4:6]
+                s = Currents[i][7:9]
+                append = [h, m, s]
+                Key_time.append(append)
+    # print(Key_time)
+    clone = []
 
-            h = img_dir[index[0]+1:index[0]+3]
-            m = img_dir[index[1]+1:index[1]+3]
-            s = img_dir[index[2]+1:index[2]+3]
-            append = [h, m, s]
-            Key_time.append(append)
-    clone = Key_time.copy()
 
-    for i in range(len(Key_time)):
-        h =  Key_time[i][0]
-        m =  Key_time[i][1]
-        s =  Key_time[i][2]
-        h1 =  Img_time[i][0]
-        m1 =  Img_time[i][1]
-        s1 =  Img_time[i][2]
+    # print(Img_time)
+    print(Key_time[1])
+    num = 0
+    while not Img_time[num] == Key_time[1]:
+        num += 1
+    print(Img_time[num])
+    print(num)
+    counter = num
+    for i in range((len(Key_time)+1)-len(Img_time)):
+        Img_time.append(0)
+    print(len(Key_time))
+    print(len(Img_time))
+    for i in range(1, len(Key_time)):
+        # h =  Key_time[num + i][0]
+        # m =  Key_time[num + i][1]
+        # s =  Key_time[num + i][2]
+        # h1 =  Img_time[counter][0]
+        # m1 =  Img_time[counter][1]
+        # s1 =  Img_time[counter][2]
+        try:
+            if Img_time[counter] == Key_time[i]:
+                clone.append(img_dir[counter])
+                print(img_dir[counter])
+                # counter += 1
+            else:
+                counter += 1
+        except  IndexError:
+            img_dir.append(0)
+    # print(img_dir)
+    # print(clone)
+    print(len(clone))
+    print(len(Key_time))
+    # print(img_dir)
 
-        if h1 == h and m1 == m and s1 == s:
-            clone.append(img_dir[i])
     return clone
 
+def claibImage2(path2img, path2file):
+    img_dir = []
+    for file in glob.glob(path2img + "*.jpg"):
+        img_dir.append(file)
 
-    
+    return img_dir
+
 
 #########################################################################################################
 ##                                      CONTROL FUNCTIONS                                              ##
