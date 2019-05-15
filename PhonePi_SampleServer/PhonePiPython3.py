@@ -1,18 +1,28 @@
 from flask import Flask 
 from flask_sockets import Sockets
-
+import math
 
 app = Flask(__name__) 
 sockets = Sockets(app)
 
 @sockets.route('/accelerometer') 
 def echo_socket(ws):
-	f=open("C:\Users\opraon\Documents\GitHub\ArduinoSelfDrivingInterface\aiModel\Data\driving_log.csv", "w")
+	f=open("C:\\Users\\opraon\\Documents\\GitHub\\ArduinoSelfDrivingInterface\\aiModel\\speed_log.csv", "w")
+
 	while True:
+		vx = 0
+		vy = 0
+		vz = 0
+		dt = 0.1
 		message = ws.receive()
 		print(message) 
 		ws.send(message)
-		print(message, file=f)
+		data = message.split(',')
+		vx += float(data[0]) * dt
+		vy += float(data[1]) * dt
+		vz += float(data[2]) * dt
+		speed = math.sqrt(vx**2 + vy**2 + vz**2)
+		print('Speed = ', speed, file = f)
 	f.close()
 
 
