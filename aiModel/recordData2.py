@@ -32,7 +32,7 @@ def on_press(key):
             get_image('http://192.168.1.95:8080/shot.jpg', True)
             # i+=1
             left()
-           
+
         elif key == 's':
             print('Command backward ')
             get_image('http://192.168.1.95:8080/shot.jpg', False)
@@ -41,19 +41,19 @@ def on_press(key):
             print('Command right ')
             get_image('http://192.168.1.95:8080/shot.jpg', True)
             right()
-        
+
         elif key == 'a' and key == 'w':
             print('Command left-forward ')
             get_image('http://192.168.1.95:8080/shot.jpg', True)
             left()
             forward()
-        
+
         elif key == 'd' and key == 'w':
             print('Command right-forward ')
             get_image('http://192.168.1.95:8080/shot.jpg', True)
             right()
             forward()
-            
+
 
         else:
             print('Command non-recieved ')
@@ -100,3 +100,7 @@ with keyboard.Listener(
         on_release=on_release) as listener:
         # t = time.time()
     listener.join()
+    forward()
+    time.sleep(0.2)
+    stop()
+    time.sleep(0.4)
