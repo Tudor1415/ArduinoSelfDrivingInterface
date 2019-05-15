@@ -17,12 +17,12 @@ def echo_socket(ws):
 		message = ws.receive()
 		print(message) 
 		ws.send(message)
-		data = message.split(',')
-		vx += float(data[0]) * dt
-		vy += float(data[1]) * dt
-		vz += float(data[2]) * dt
-		speed = math.sqrt(vx**2 + vy**2 + vz**2)
-		print('Speed = ', speed, file = f)
+		# data = message.split(',')
+		# vx += float(data[2]) * dt
+		# vy += float(data[3]) * dt
+		# vz += float(data[4]) * dt
+		# speed = math.sqrt(vx**2 + vy**2 + vz**2)
+		# print('Speed = ', speed, file = f)
 	f.close()
 
 

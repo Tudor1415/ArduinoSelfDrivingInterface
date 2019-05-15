@@ -73,9 +73,16 @@
 #   p1.join()
 #   p2.join()
 
+# import time
+# from get_Image2 import get_image
+# t = time.time()
+# get_image('http://192.168.1.95:8080/shot.jpg')
+# t0 = time.time()
+# print(t0 - t)
+import cv2
 import time
-from get_Image2 import get_image
-t = time.time()
-get_image('http://192.168.1.95:8080/shot.jpg')
-t0 = time.time()
-print(t0 - t)
+imageP = 'test.jpg'
+image = cv2.imread(imageP, 3)
+i = image[60:-25, :, :]
+cv2.imshow('test', i)
+time.sleep(100)

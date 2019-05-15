@@ -93,7 +93,7 @@ def on_release(key):
 i = 0
 t = time.time()
 f = open('Data/driving_log.csv', 'w')
-f.write("{}, {}, {}, {}, {}".format('Speed', 'Current', 'Time', 'Key', 'Img'))
+f.write("{}, {}, {}, {}, {}".format('Img', 'Current', 'Time', 'Key'))
 
 with keyboard.Listener(
         on_press=on_press,

@@ -32,7 +32,7 @@ def get_image(url, choice):
 
         length = len(open("Data/driving_log.csv").readlines())
         f = open('Data/driving_log.csv', 'w')
-        buffer += "Data\\IMG\\{}_trainingImage.jpg".format(strftime("$%H$%M$%S", gmtime()))
+        buffer += "'Data\\IMG\\{}_trainingImage.jpg, '".format(strftime("$%H$%M$%S", gmtime()))
         f.write(buffer)
     else:
         f = open('Data/driving_log.csv', 'r+')

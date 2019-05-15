@@ -16,7 +16,7 @@ import motor
 
 
 
-input_type = 'stream' #'video' # 'image'
+input_type = 'video' #'video' # 'image'
 input_name = 'project_video.mp4' #'test_images/straight_lines1.jpg' # 'challenge_video.mp4'
 
 left_line = Line()
@@ -172,12 +172,12 @@ if __name__ == '__main__':
             cv2.imshow('LR searching', searching_img)
 
             #################################################################################
-            if searching_img == 'emergency_stop':
-                motor.backward_ai(2)
-                motor.stop_ai
-            else:
-                ANGLE = helpers.radius2angle(left_line, right_line, 2.5, 0.3444882)
-                motor.steer_angle_forward(ANGLE)
+            # if searching_img == 'emergency_stop':
+            #     motor.backward_ai(2)
+            #     motor.stop_ai
+            # else:
+            #     ANGLE = helpers.radius2angle(left_line, right_line, 2.5, 0.3444882)
+            #     motor.steer_angle_forward(ANGLE)
             w_comb_result, w_color_result = draw_lane(searching_img, left_line, right_line)
             cv2.imshow('w_comb_result', w_comb_result)
 
