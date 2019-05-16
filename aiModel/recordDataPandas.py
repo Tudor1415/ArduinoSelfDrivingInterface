@@ -7,7 +7,11 @@ Keys = data['Key']
 Times = data['Time']
 Current = data['Current']
 
-for i in range(0, len(Imgs)):
+# for i in range(0, Imgs.count):
+    
+
+Imgs
+
   
 
 
