@@ -101,19 +101,20 @@ while n > 0:
 #####################################################
 keyboard = Controller()
 right()
-for i in range(0, 3):
+for i in range(0, 2):
     keyboard.press('d')
     keyboard.press('w')
     right()
     forward()
-    time.sleep(0.32)
+
+    time.sleep(0.4)
     stop()
     keyboard.release('w')
     right()
     time.sleep(0.75)
     keyboard.release('d')
 stop()
-for i in range(0, 1):
+for i in range(0, 2):
     keyboard.press('a')
     keyboard.press('w')
     left()
