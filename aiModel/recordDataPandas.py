@@ -12,10 +12,10 @@ Times = data['Time']
 Current = data['Current']
 times = []
 
-for index, content in data.Current:
+for index, content in Current:
     times.append(content)
 
-print(times)
+print(Current)
 # for j in Keys:
 #     i = 0
 #     if j == 'd':
