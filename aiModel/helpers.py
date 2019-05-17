@@ -46,11 +46,11 @@ def calibTime(path2file):
         # print(Calib)
         for i in range(0, len(Calib)):
             j = Keys[i]
-            if j == " 'D'":
+            if j == 'a':
                 value = time2deg(Calib[i])
                 Angles.append(value)
                 # print(Angles)
-            elif j == " 'A'":
+            elif j == 'd':
                 # print(Calib[i])
                 Angles.append(-1 * time2deg(Calib[i]))
             else:
