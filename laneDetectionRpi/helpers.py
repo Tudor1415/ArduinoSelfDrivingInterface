@@ -55,7 +55,7 @@ def calibTime(path2file):
 def radius2angle(left_line, right_line, steering_ratio, wheel_base):
     # wheel base 10.5 cm
     # steering ratio : 2.5
-    road_inf, curvature, deviation, radius_of_curvature = findLanes.road_info(left_line, right_line)
+    curvature, radius_of_curvature, deviatio = road_info(left_line, right_line)
     angle = (steering_ratio * math.acos((2-wheel_base**2/radius_of_curvature**2)*0.5))/2
     return angle
 

@@ -29,9 +29,10 @@ def calibTime(path2file):
         Angles = []
 
         for row in readCSV:
-            Key = row[2]
-            Time = row[1]
-            Current = row[0]
+            Key = row[3]
+            Time = row[2]
+            Current = row[1]
+            Img = row[0]
             # Angle = row[3]
 
             Times.append(Time)

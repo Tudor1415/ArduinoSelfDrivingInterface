@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.image as mpimg
 
 
-IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_CHANNELS = 66, 160, 3
+IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_CHANNELS = 176, 144, 3
 INPUT_SHAPE = (IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_CHANNELS)
 
 
@@ -40,7 +40,7 @@ def preprocess(image):
     Combine all preprocess functions into one
     """
     image = crop(image)
-    image = resize(image)
+    # image = resize(image)
     image = rgb2yuv(image)
     return image
 

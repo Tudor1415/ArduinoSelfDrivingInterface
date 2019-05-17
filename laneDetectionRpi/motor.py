@@ -53,7 +53,7 @@ def stop_ai():
     Arduino_Serial.write(str.encode('o'))
 
 def steer_angle_forward(angle):
-    duration = helpers.deg2time(angle)
+    duration = deg2time(angle)
     if angle < 0:
         while True:
             Arduino_Serial.write(str.encode('f'))
