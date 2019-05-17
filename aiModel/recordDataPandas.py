@@ -12,6 +12,7 @@ Times = data['Time']
 Current = data['Current']
 times = []
 # times = [[i] for j, i in Current]
+list(Current)
 print(type(list(Current))
 
 # print(Current)
