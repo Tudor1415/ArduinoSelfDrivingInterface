@@ -11,11 +11,10 @@ Keys = data['Key']
 Times = data['Time']
 Current = data['Current']
 times = []
+# times = [[i] for j, i in Current]
+print(type(list(Current))
 
-for index, content in Current:
-    times.append(content)
-
-print(Current)
+# print(Current)
 # for j in Keys:
 #     i = 0
 #     if j == 'd':
