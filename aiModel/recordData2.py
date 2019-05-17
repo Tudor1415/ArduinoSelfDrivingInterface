@@ -1,11 +1,11 @@
 from pynput import keyboard
 import time
-from helpers import *
+# from helpers import *
 import pandas as pd
 import numpy as np
 import os
 from time import gmtime, strftime
-from helpers import forward, left, backward, right, stop
+# from helpers import forward, left, backward, right, stop
 import urllib
 import urllib.request
 import cv2
@@ -26,33 +26,33 @@ def on_press(key):
         if key == 'w':
             print('Command forward ')
             get_image('http://192.168.1.95:8080/shot.jpg', False)
-            forward()
+            # forward()
         elif key == 'a':
             print('Command left ')
             get_image('http://192.168.1.95:8080/shot.jpg', True)
             # i+=1
-            left()
+            # left()
 
         elif key == 's':
             print('Command backward ')
             get_image('http://192.168.1.95:8080/shot.jpg', False)
-            backward()
+            # backward()
         elif key == 'd':
             print('Command right ')
             get_image('http://192.168.1.95:8080/shot.jpg', True)
-            right()
+            # right()
 
         elif key == 'a' and key == 'w':
             print('Command left-forward ')
             get_image('http://192.168.1.95:8080/shot.jpg', True)
-            left()
-            forward()
+            # left()
+            # forward()
 
         elif key == 'd' and key == 'w':
             print('Command right-forward ')
             get_image('http://192.168.1.95:8080/shot.jpg', True)
-            right()
-            forward()
+            # right()
+            # forward()
 
 
         else:
@@ -85,7 +85,7 @@ def on_release(key):
     if key == keyboard.Key.esc:
         # Stop listener
         return False
-    stop()
+    # stop()
     # write2csv('dob.csv', times )
 
 
@@ -93,14 +93,14 @@ def on_release(key):
 i = 0
 t = time.time()
 f = open('Data/driving_log.csv', 'w')
-f.write("{}, {}, {}, {}, {}".format('Img', 'Current', 'Time', 'Key'))
+f.write("{}, {}, {}, {}".format('Img', 'Current', 'Time', 'Key'))
 
 with keyboard.Listener(
         on_press=on_press,
         on_release=on_release) as listener:
         # t = time.time()
     listener.join()
-    forward()
-    time.sleep(0.2)
-    stop()
-    time.sleep(0.4)
+    # forward()
+    # time.sleep(0.2)
+    # stop()
+    # time.sleep(0.4)
