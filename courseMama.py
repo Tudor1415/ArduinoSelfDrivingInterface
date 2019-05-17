@@ -38,67 +38,10 @@ while n > 0:
     time.sleep(1)
 
 
-# for i in range(0,4):
-#     left()
-#     forward()
-#     time.sleep(0.32)
-#     stop()
-#     time.sleep(0.02)
 
-# left()
-# forward()
-# time.sleep(0.2)
-# right()
-# forward()
-# time.sleep(0.35)
-# stop()
-# # left()
-# right()
-# time.sleep(1)
-# forward()
-# time.sleep(0.25)
-# # stop()
-# # right()
-# # forward()
-# # time.sleep(1.5)
-# # stop()
-# # right()
-# stop()
-
-
-
-# for i in range(0, 20):
-#     forward()
-#     time.sleep(0.1)
-# right()
-# keyboard = Controller()
-# for i in range(0, 20):
-
-#     for i in range(0, 4):
-#         keyboard.press('d')
-#         keyboard.press('w')
-#         # right()
-#         left()
-#         forward()
-#         time.sleep(0.175)
-#         stop()
-#         keyboard.release('w')
-#         # right()
-#         left()
-#         time.sleep(0.3)
-#         keyboard.release('d')
-#         # forward()
-#         # time.sleep(0.1)
-#         # stop()
-
-# stop()
-
-# stop()
-# keyboard.press('esc')
-# keyboard.release('esc')
-
-
-#####################################################
+#######################
+#       Block 1       #
+#######################
 keyboard = Controller()
 right()
 for i in range(0, 2):
@@ -114,6 +57,9 @@ for i in range(0, 2):
     time.sleep(0.75)
     keyboard.release('d')
 stop()
+#######################
+#       Block 2       #
+#######################
 for i in range(0, 2):
     keyboard.press('a')
     keyboard.press('w')
@@ -126,11 +72,17 @@ for i in range(0, 2):
     time.sleep(0.6)
     keyboard.release('a')
 stop()
-keyboard.press('a')
+#######################
+#       Block 3       #
+#######################
+keyboard.press('w')
 forward()
 time.sleep(0.25)
-keyboard.release('a')
+keyboard.release('w')
 stop()
+#######################
+#       Block 4       #
+#######################
 for i in range(0, 1):
     keyboard.press('d')
     keyboard.press('w')
@@ -143,6 +95,9 @@ for i in range(0, 1):
     time.sleep(0.5)
     keyboard.release('d')
 stop()
+#######################
+#       Block 5       #
+#######################
 keyboard.press('d')
 keyboard.press('w')
 forward()
@@ -151,6 +106,9 @@ time.sleep(0.3)
 stop()
 keyboard.release('d')
 keyboard.release('w')
+#######################
+#       Block 6       #
+#######################
 for i in range(0, 1):
     keyboard.press('d')
     keyboard.press('w')
@@ -163,15 +121,27 @@ for i in range(0, 1):
     time.sleep(0.4)
     keyboard.release('d')
 stop()
+#######################
+#       Block 7       #
+#######################
 right()
 forward()
 time.sleep(0.2)
 stop()
+#######################
+#       Block 8       #
+#######################
 right()
 forward()
 time.sleep(0.4)
 stop()
+#######################
+#       Block 9       #
+#######################
 right()
 forward()
 time.sleep(0.4)
 stop()
+#######################
+#       Block 10      #
+#######################
