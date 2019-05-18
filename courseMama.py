@@ -87,18 +87,23 @@ stop()
 # #######################
 # #       Block 4       #
 # #######################
-# for i in range(0, 1):
-#     keyboard.press('d')
-#     keyboard.press('w')
-#     right()
-#     forward()
-#     time.sleep(0.3)
-#     keyboard.release('w')
-#     stop()
-#     right()
-#     time.sleep(0.5)
-#     keyboard.release('d')
-# stop()
+forward()
+time.sleep(0.2)
+left()
+time.sleep(0.1)
+stop()
+for i in range(0, 1):
+    keyboard.press('d')
+    keyboard.press('w')
+    right()
+    forward()
+    time.sleep(0.31)
+    keyboard.release('w')
+    stop()
+    right()
+    time.sleep(0.52)
+    keyboard.release('d')
+stop()
 # #######################
 # #       Block 5       #
 # #######################
