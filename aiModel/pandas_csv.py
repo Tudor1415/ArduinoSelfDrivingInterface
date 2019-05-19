@@ -21,7 +21,7 @@ keys = []
 for i, row in data.iterrows():
     times.append(row['Time'])
     keys.append(row['Key'])
-# print(keys)
+# print(times)
 calib.append(times[0])
 for i in range(1, len(times)):
     calib.append(float(times[i]) - float(times[i-1]))

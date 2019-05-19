@@ -79,10 +79,11 @@
 # get_image('http://192.168.1.95:8080/shot.jpg')
 # t0 = time.time()
 # print(t0 - t)
-import cv2
-import time
-imageP = 'test.jpg'
-image = cv2.imread(imageP, 3)
-i = image[60:-25, :, :]
-cv2.imshow('test', i)
-time.sleep(100)
+# import cv2
+# import time
+# imageP = 'test.jpg'
+# image = cv2.imread(imageP, 3)
+# i = image[60:-25, :, :]
+# cv2.imshow('test', i)
+# time.sleep(100)
+# import pandas

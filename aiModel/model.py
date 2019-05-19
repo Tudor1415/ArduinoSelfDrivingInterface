@@ -31,13 +31,13 @@ def load_data(args):
     Load training data and split it into training and validation set
     """
     #reads CSV file into a single dataframe variable
-    data_df = pd.read_csv(os.path.join(args.data_dir, 'driving_log.csv'), names=['center', 'left', 'right', 'steering', 'throttle', 'reverse', 'speed'])
+    data_df = pd.read_csv(os.path.join(args.data_dir, 'driving_log_calib.csv'), names=['Img','Current','Time','Key','Calibrated_Time','Angles'])
 
     #yay dataframes, we can select rows and columns by their names
     #we'll store the camera images as our input data
-    X = data_df[['center', 'left', 'right']].values
+    X = data_df[['Img']].values
     #and our steering commands as our output data
-    y = data_df['steering'].values
+    y = data_df['Angles'].values
 
     #now we can split the data into a training (80), testing(20), and validation set
     #thanks scikit learn
@@ -122,7 +122,7 @@ def train_model(model, args, X_train, X_valid, y_train, y_valid):
                         nb_val_samples=len(X_valid),
                         callbacks=[checkpoint],
                         verbose=1)
-    os.environ["CUDA_VISIBLE_DEVICES"]="2"
+    os.environ["CUDA_VISIBLE_DEVICES"]="1"
 
 #for command line args
 def s2b(s):

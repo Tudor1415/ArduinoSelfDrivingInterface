@@ -23,6 +23,7 @@ while True:
     steer_angle(steering_angle)
     forward()
     time.sleep(0.2)
+    stop()
     steer_angle(steering_angle)
     time.sleep(0.4)
 
