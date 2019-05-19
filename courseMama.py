@@ -65,7 +65,7 @@ for i in range(0, 1):
         keyboard.press('w')
         left()
         forward()
-        time.sleep(0.3)
+        time.sleep(0.2)
         stop()
         left()
         keyboard.release('w')
@@ -76,21 +76,29 @@ for i in range(0, 1):
     #       Block 3       #
     #######################
     for i in range(0, 2):
+        keyboard.press('d')
+        keyboard.press('w')
         right()
         forward()
         time.sleep(0.2)
         stop()
+        keyboard.release('w')
         right()
         time.sleep(0.3)
     stop()
+    keyboard.release('d')
     # #######################
     # #       Block 4       #
     # #######################
+    keyboard.press('w')
     forward()
     time.sleep(0.3)
+    keyboard.press('a')
     left()
     time.sleep(0.1)
     stop()
+    keyboard.release('w')
+    keyboard.release('a')
     for i in range(0, 1):
         keyboard.press('d')
         keyboard.press('w')
@@ -101,28 +109,33 @@ for i in range(0, 1):
         stop()
         right()
         time.sleep(0.52)
-        keyboard.release('d')
     stop()
+    keyboard.release('d')
     #######################
     #       Block 5       #
     #######################
+    keyboard.press('a')
+    keyboard.release('w')
     left()
     forward()
     time.sleep(0.15)
     stop()
+    keyboard.release('a')
     forward()
     time.sleep(0.55)
     stop()
-    forward()
+    keyboard.release('w')
+    keyboard.press('d')
+    # forward()
     right()
-    time.sleep(0.4)
+    time.sleep(0.6)
     stop()
-    right()
-    time.sleep(0.2)
-    stop()
+    keyboard.release('d')
+    keyboard.press('w')
     forward()
     time.sleep(0.1)
     stop()
+    keyboard.release('w')
     # #######################
     # #       Block 6       #
     # #######################
