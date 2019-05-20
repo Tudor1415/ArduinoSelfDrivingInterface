@@ -121,5 +121,9 @@ df = pd.DataFrame({'Img' : img_list,
                   'Time' : times,
                   'Key' : keys})
 print(len(img_list), len(currents), len(times), len(keys))
+choice = input('Do you want to save this run?')
+if choice == "yes":
 # print(img_list)
-df.to_csv (r'Data\driving_log.csv', index = None, header=False)
+    df.to_csv (r'Data\driving_log.csv', index = None, header=False)
+else:
+    pass
